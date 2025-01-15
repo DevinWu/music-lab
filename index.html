@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音符弹奏器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>音符弹奏器</h1>
+    <section id="note-section">
+        <div id="chord-selector" class="chord-column">
+            <label><input type="radio" name="chord" value="C"> C Major (C4, E4, G4)</label>
+            <label><input type="radio" name="chord" value="Am"> A Minor (A4, C4, E4)</label>
+            <label><input type="radio" name="chord" value="G"> G Major (G4, B4, D4)</label>
+            <label><input type="radio" name="chord" value="F"> F Major (F4, A4, C5)</label>
+            <label><input type="radio" name="chord" value="Dm"> D Minor (D4, F4, A4)</label>
+            <label><input type="radio" name="chord" value="Em"> E Minor (E4, G4, B4)</label>
+            <label><input type="radio" name="chord" value="A"> A Major (A4, C4, E4)</label>
+        </div>
+
+        <div id="note-selector">
+            <div></div>
+            <div></div>
+            <label><input type="checkbox" value="E2"> E2</label>
+            <label><input type="checkbox" value="F2"> F2</label>
+            <label><input type="checkbox" value="G2"> G2</label>
+            <label><input type="checkbox" value="A2"> A2</label>
+            <label><input type="checkbox" value="B2"> B2</label>
+            <label><input type="checkbox" value="C3"> C3</label>
+            <label><input type="checkbox" value="D3"> D3</label>
+            <label><input type="checkbox" value="E3"> E3</label>
+            <label><input type="checkbox" value="F3"> F3</label>
+            <label><input type="checkbox" value="G3"> G3</label>
+            <label><input type="checkbox" value="A3"> A3</label>
+            <label><input type="checkbox" value="B3"> B3</label>
+            <label><input type="checkbox" value="C4"> C4</label>
+            <label><input type="checkbox" value="D4"> D4</label>
+            <label><input type="checkbox" value="E4"> E4</label>
+            <label><input type="checkbox" value="F4"> F4</label>
+            <label><input type="checkbox" value="G4"> G4</label>
+            <label><input type="checkbox" value="A4"> A4</label>
+            <label><input type="checkbox" value="B4"> B4</label>
+            <label><input type="checkbox" value="C5"> C5</label>
+            <label><input type="checkbox" value="D5"> D5</label>
+            <label><input type="checkbox" value="E5"> E5</label>
+            <label><input type="checkbox" value="F5"> F5</label>
+            <label><input type="checkbox" value="G5"> G5</label>
+            <label><input type="checkbox" value="A5"> A5</label>
+            <label><input type="checkbox" value="B5"> B5</label>
+            <label><input type="checkbox" value="C6"> C6</label>
+            <label><input type="checkbox" value="D6"> D6</label>
+            <label><input type="checkbox" value="E6"> E6</label>
+        </div>
+
+        <div id="four-note-chord-selector" class="chord-column">
+            <label><input type="radio" name="chord" value="C7"> C7 (C4, E4, G4, B4)</label>
+            <label><input type="radio" name="chord" value="Am7"> Am7 (A4, C4, E4, G4)</label>
+            <label><input type="radio" name="chord" value="G7"> G7 (G4, B4, D4, F4)</label>
+            <label><input type="radio" name="chord" value="Fmaj7"> Fmaj7 (F4, A4, C5, E5)</label>
+            <label><input type="radio" name="chord" value="Dm7"> Dm7 (D4, F4, A4, C5)</label>
+            <label><input type="radio" name="chord" value="E7"> E7 (E4, G4, B4, D5)</label>
+        </div>
+    </section>
+
+    <div id="controls">
+        <button id="play-button">弹奏</button>
+        <button id="clear-button">清除选中</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.39/Tone.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
