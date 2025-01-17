@@ -136,5 +136,8 @@ document.getElementById('clear-button').addEventListener('click', () => {
 
     // 清空音符序列显示框
     document.getElementById('sequence-display').value = '';
-    sequenceStartTime = null; // 重置序列开始时间
+
+    // 重置时间戳和序列开始时间
+    lastNoteTime = null;
+    sequenceStartTime = null;
 }); 
