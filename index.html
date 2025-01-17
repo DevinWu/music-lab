@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>音符弹奏器</h1>
+    <input type="text" id="sequence-display" placeholder="音符序列" />
     <section id="note-section">
         <div id="chord-selector" class="chord-column">
             <label><input type="radio" name="chord" value="C"> C Major (C4, E4, G4)</label>
@@ -64,6 +65,11 @@
     </section>
 
     <div id="controls">
+        <select id="mode-select">
+            <option value="simultaneous">同时弹奏</option>
+            <option value="no-memory">无记忆模式</option>
+            <option value="sequential">连续模式</option>
+        </select>
         <button id="play-button">弹奏</button>
         <button id="clear-button">清除选中</button>
     </div>

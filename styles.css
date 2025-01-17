@@ -116,4 +116,24 @@ button:hover {
     align-items: center;
     gap: 10px;
     margin-top: 20px;
+}
+
+select, input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+#sequence-display {
+    width: calc(100% - 40px); /* 与 note-selector 的宽度一致 */
+    margin: 10px auto;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    text-align: center;
+    display: none; /* 默认隐藏 */
 } 
