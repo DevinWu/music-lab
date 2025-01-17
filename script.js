@@ -41,6 +41,8 @@ updateNoteSelection('chord', '#chord-selector input');
 updateNoteSelection('four-note-chord', '#four-note-chord-selector input');
 
 let currentMode = 'simultaneous';
+let lastNoteTime = null; // 记录上一个音符的时间戳
+let sequenceStartTime = null; // 记录序列开始的时间
 
 document.getElementById('mode-select').addEventListener('change', (event) => {
     currentMode = event.target.value;
@@ -57,6 +59,8 @@ document.getElementById('mode-select').addEventListener('change', (event) => {
         sequenceDisplay.style.display = 'none';
         sequenceDisplay.value = ''; // 清空文本框内容
     }
+    lastNoteTime = null; // 重置时间戳
+    sequenceStartTime = null; // 重置序列开始时间
 });
 
 document.querySelectorAll('#note-selector input').forEach(noteInput => {
@@ -71,7 +75,19 @@ document.querySelectorAll('#note-selector input').forEach(noteInput => {
             if (noteInput.checked) {
                 synth.triggerAttackRelease(noteInput.value, '8n');
                 const sequenceDisplay = document.getElementById('sequence-display');
+                const currentTime = Date.now();
+                
+                if (sequenceStartTime === null) {
+                    sequenceStartTime = currentTime; // 记录序列开始时间
+                }
+
+                if (lastNoteTime !== null) {
+                    const interval = Math.round((currentTime - lastNoteTime) / 100); // 以0.1秒为单位
+                    sequenceDisplay.value += ` ${interval}`;
+                }
+                
                 sequenceDisplay.value += (sequenceDisplay.value ? ' ' : '') + noteInput.value;
+                lastNoteTime = currentTime; // 更新上一个音符的时间戳
                 noteInput.checked = false; // Uncheck immediately
             }
         }
@@ -94,15 +110,16 @@ document.getElementById('play-button').addEventListener('click', async () => {
         }
     } else if (currentMode === 'sequential') {
         const sequenceDisplay = document.getElementById('sequence-display');
-        const notes = sequenceDisplay.value.split(' ').filter(note => note);
+        const elements = sequenceDisplay.value.split(' ').filter(el => el);
 
-        if (notes.length > 0) {
-            notes.forEach((note, index) => {
-                synth.triggerAttackRelease(note, '8n', now + index * 0.5); // 0.5 seconds apart
-            });
-        } else {
-            alert('请输入音符序列！');
-        }
+        let timeOffset = 0;
+        elements.forEach((el, index) => {
+            if (isNaN(el)) {
+                synth.triggerAttackRelease(el, '8n', now + timeOffset);
+            } else {
+                timeOffset += parseInt(el) * 0.1; // 将间隔转换为秒
+            }
+        });
     }
 });
 
@@ -119,4 +136,5 @@ document.getElementById('clear-button').addEventListener('click', () => {
 
     // 清空音符序列显示框
     document.getElementById('sequence-display').value = '';
+    sequenceStartTime = null; // 重置序列开始时间
 }); 

@@ -134,6 +134,9 @@ select, input[type="text"] {
     border-radius: 5px;
     border: 1px solid #ccc;
     background-color: #fff;
-    text-align: center;
+    text-align: left;
     display: none; /* 默认隐藏 */
+    resize: vertical; /* 允许用户调整高度 */
+    height: 100px; /* 初始高度 */
+    overflow-y: auto; /* 允许滚动 */
 } 
