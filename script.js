@@ -87,6 +87,9 @@ document.querySelectorAll('#note-selector input').forEach(noteInput => {
             }
         } else if (currentMode === 'sequential') {
             if (noteInput.checked) {
+                // 播放音符
+                synth.triggerAttackRelease(noteInput.value, '8n');
+
                 const sequenceDisplay = document.getElementById('sequence-display');
                 const currentTime = Date.now();
                 
