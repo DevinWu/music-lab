@@ -44,6 +44,11 @@ let currentMode = 'simultaneous';
 let lastNoteTime = null; // 记录上一个音符的时间戳
 let sequenceStartTime = null; // 记录序列开始的时间
 
+document.addEventListener('DOMContentLoaded', () => {
+    const sequenceDisplay = document.getElementById('sequence-display');
+    sequenceDisplay.style.display = 'none'; // 初始隐藏
+});
+
 document.getElementById('mode-select').addEventListener('change', (event) => {
     currentMode = event.target.value;
     const sequenceDisplay = document.getElementById('sequence-display');
@@ -59,10 +64,10 @@ document.getElementById('mode-select').addEventListener('change', (event) => {
     });
 
     if (currentMode === 'sequential') {
-        sequenceDisplay.style.display = 'block';
+        sequenceDisplay.style.display = 'block'; // 显示文本框
     } else {
-        sequenceDisplay.style.display = 'none';
-        sequenceDisplay.value = ''; // 清空文本框内容
+        sequenceDisplay.style.display = 'none'; // 隐藏文本框
+        sequenceDisplay.innerHTML = ''; // 清空文本框内容
     }
     lastNoteTime = null; // 重置时间戳
     sequenceStartTime = null; // 重置序列开始时间
@@ -75,6 +80,10 @@ document.querySelectorAll('#note-selector input').forEach(noteInput => {
             if (noteInput.checked) {
                 synth.triggerAttackRelease(noteInput.value, '8n');
                 noteInput.checked = false; // Uncheck immediately
+            }
+        } else if (currentMode === 'simultaneous') {
+            if (noteInput.checked) {
+                synth.triggerAttackRelease(noteInput.value, '8n');
             }
         } else if (currentMode === 'sequential') {
             if (noteInput.checked) {
