@@ -53,6 +53,11 @@ document.getElementById('mode-select').addEventListener('change', (event) => {
         noteInput.checked = false;
     });
 
+    // 清空所有选中的和弦
+    document.querySelectorAll('#chord-selector input, #four-note-chord-selector input').forEach(chordInput => {
+        chordInput.checked = false;
+    });
+
     if (currentMode === 'sequential') {
         sequenceDisplay.style.display = 'block';
     } else {
@@ -73,7 +78,6 @@ document.querySelectorAll('#note-selector input').forEach(noteInput => {
             }
         } else if (currentMode === 'sequential') {
             if (noteInput.checked) {
-                synth.triggerAttackRelease(noteInput.value, '8n');
                 const sequenceDisplay = document.getElementById('sequence-display');
                 const currentTime = Date.now();
                 
@@ -83,10 +87,10 @@ document.querySelectorAll('#note-selector input').forEach(noteInput => {
 
                 if (lastNoteTime !== null) {
                     const interval = Math.round((currentTime - lastNoteTime) / 100); // 以0.1秒为单位
-                    sequenceDisplay.value += ` ${interval}`;
+                    sequenceDisplay.innerHTML += ` ${interval}`;
                 }
                 
-                sequenceDisplay.value += (sequenceDisplay.value ? ' ' : '') + noteInput.value;
+                sequenceDisplay.innerHTML += (sequenceDisplay.innerHTML ? ' ' : '') + noteInput.value;
                 lastNoteTime = currentTime; // 更新上一个音符的时间戳
                 noteInput.checked = false; // Uncheck immediately
             }
@@ -110,18 +114,28 @@ document.getElementById('play-button').addEventListener('click', async () => {
         }
     } else if (currentMode === 'sequential') {
         const sequenceDisplay = document.getElementById('sequence-display');
-        const elements = sequenceDisplay.value.split(' ').filter(el => el);
+        const elements = sequenceDisplay.textContent.split(' ').filter(el => el);
 
         let timeOffset = 0;
         elements.forEach((el, index) => {
             if (isNaN(el)) {
-                synth.triggerAttackRelease(el, '8n', now + timeOffset);
+                setTimeout(() => {
+                    synth.triggerAttackRelease(el, '8n');
+                    highlightNoteInSequence(el, index); // 高亮显示正在弹奏的音符
+                }, timeOffset * 1000);
             } else {
                 timeOffset += parseInt(el) * 0.1; // 将间隔转换为秒
             }
         });
     }
 });
+
+function highlightNoteInSequence(note, index) {
+    const sequenceDisplay = document.getElementById('sequence-display');
+    const elements = sequenceDisplay.textContent.split(' ').filter(el => el);
+    elements[index] = `<span class="highlight-sequence">${note}</span>`;
+    sequenceDisplay.innerHTML = elements.join(' ');
+}
 
 document.getElementById('clear-button').addEventListener('click', () => {
     // 清除所有选中的音符
@@ -140,4 +154,28 @@ document.getElementById('clear-button').addEventListener('click', () => {
     // 重置时间戳和序列开始时间
     lastNoteTime = null;
     sequenceStartTime = null;
+});
+
+document.querySelectorAll('#chord-selector input, #four-note-chord-selector input').forEach(chordInput => {
+    chordInput.addEventListener('change', () => {
+        if (currentMode === 'sequential' && chordInput.checked) {
+            const synth = new Tone.Synth().toDestination();
+            const sequenceDisplay = document.getElementById('sequence-display');
+            const selectedChord = chordInput.value;
+            const notes = chordMap[selectedChord];
+
+            if (notes) {
+                // 在和弦开始前添加10个单位的间隔
+                if (sequenceDisplay.innerHTML) {
+                    sequenceDisplay.innerHTML += ' 10';
+                }
+
+                notes.forEach((note, index) => {
+                    const interval = index === 0 ? '' : ' 8'; // 每个音符间隔8个单位的0.1秒
+                    sequenceDisplay.innerHTML += `${interval} ${note}`;
+                    synth.triggerAttackRelease(note, '8n', Tone.now() + index * 0.8); // 播放音符
+                });
+            }
+        }
+    });
 }); 

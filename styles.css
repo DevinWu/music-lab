@@ -126,7 +126,7 @@ select, input[type="text"] {
     cursor: pointer;
 }
 
-#sequence-display {
+.sequence-display {
     width: calc(100% - 40px); /* 与 note-selector 的宽度一致 */
     margin: 10px auto;
     padding: 10px;
@@ -134,9 +134,21 @@ select, input[type="text"] {
     border-radius: 5px;
     border: 1px solid #ccc;
     background-color: #fff;
+    color: #000; /* 确保字体颜色可见 */
     text-align: left;
-    display: none; /* 默认隐藏 */
+    display: block; /* 确保显示 */
     resize: vertical; /* 允许用户调整高度 */
     height: 100px; /* 初始高度 */
     overflow-y: auto; /* 允许滚动 */
+    white-space: pre-wrap; /* 保留空格和换行 */
+}
+
+.highlight {
+    background-color: #ffeb3b; /* 高亮颜色 */
+    transition: background-color 0.3s;
+}
+
+.highlight-sequence {
+    color: #ff5722; /* 高亮颜色 */
+    font-weight: bold;
 } 
