@@ -126,8 +126,13 @@ document.getElementById('play-button').addEventListener('click', async () => {
         }
     } else if (currentMode === 'sequential') {
         const sequenceDisplay = document.getElementById('sequence-display');
-        const elements = sequenceDisplay.textContent.split(' ').filter(el => el);
-
+        console.log("html before replace: " + sequenceDisplay.innerHTML)
+        let innerhtml = sequenceDisplay.innerHTML.replace("<span class=\"highlight-sequence\">", "");
+        innerhtml = innerhtml.replace("</span>", "");
+        sequenceDisplay.innerHTML = innerhtml;
+        const elements = sequenceDisplay.innerHTML.split(' ').filter(el => el);
+        console.log("html after replace: " + innerhtml)
+        
         let timeOffset = 0;
         elements.forEach((el, index) => {
             if (isNaN(el)) {
